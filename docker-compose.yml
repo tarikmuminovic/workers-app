@@ -1,0 +1,35 @@
+version: '3.0'
+
+networks:
+  workers-app-network:
+    driver: bridge
+
+services:
+  #SQL
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: workers-app-phpmyadmin
+    hostname: phpmyadminY
+    environment:
+      - PMA_ARBITRARY=1
+    ports:
+      - 8005:80
+    networks:
+      workers-app-network:
+        aliases:
+          - phpmyadminY
+  mysql:
+    image: mysql:8.0.26
+    container_name: workers-app-mysql
+    hostname: workers-app-mysql
+    environment:
+      - MYSQL_DATABASE=workers_app
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+      - MYSQL_ROOT_PASSWORD=admin
+    ports:
+      - 3306:3306
+    networks:
+      workers-app-network:
+        aliases:
+          - workers-app-mysqlY
