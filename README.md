@@ -4,6 +4,16 @@
 
 Workers app is Spring boot app that provides shift management for workers.
 
+## Features
+
+- Mysql database with pma dockerized
+- Usage of Hibernate ORM and JPA repositories
+- exposed APIs by REST standard
+- documented APIs with OpenApi spec
+- Usage of design patterns
+- Unit tests
+- More...
+
 ### Prerequisites
 
 To run/develop project on the local machine it is necessary to have:
