@@ -2,7 +2,6 @@ package com.teamway.test.workersapp.rest.controller;
 
 import com.teamway.test.workersapp.application.WorkerShiftService;
 import com.teamway.test.workersapp.application.command.AssignShift;
-import com.teamway.test.workersapp.application.command.RemoveShift;
 import com.teamway.test.workersapp.domain.model.Shift;
 import com.teamway.test.workersapp.domain.view.ShiftView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,10 +49,11 @@ public class ShiftController {
 		return new ResponseEntity<>(ShiftView.fromShift(shift), HttpStatus.OK);
 	}
 
-	@DeleteMapping("")
+	@DeleteMapping("/{date}")
 	public ResponseEntity<Void> removeShift(
-			@PathVariable("workerId") Integer workerId, @RequestBody RemoveShift command) {
-		workerShiftService.removeShift(workerId, command);
+			@PathVariable("workerId") Integer workerId,
+			@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+		workerShiftService.removeShift(workerId, date);
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}

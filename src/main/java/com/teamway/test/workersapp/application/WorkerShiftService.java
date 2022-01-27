@@ -1,7 +1,6 @@
 package com.teamway.test.workersapp.application;
 
 import com.teamway.test.workersapp.application.command.AssignShift;
-import com.teamway.test.workersapp.application.command.RemoveShift;
 import com.teamway.test.workersapp.domain.exception.WorkerNotFoundException;
 import com.teamway.test.workersapp.domain.model.Shift;
 import com.teamway.test.workersapp.domain.model.Worker;
@@ -35,12 +34,12 @@ public class WorkerShiftService {
 		return shift;
 	}
 
-	public void removeShift(Integer workerId, RemoveShift command) {
+	public void removeShift(Integer workerId, LocalDate date) {
 		Worker worker = this.workerRepository.findById(workerId)
 											 .orElseThrow(() -> new WorkerNotFoundException(
 													 "Cannot find worker with ID of " + workerId));
 
-		worker.removeFromShift(command.date());
+		worker.removeFromShift(date);
 		workerRepository.save(worker);
 	}
 
