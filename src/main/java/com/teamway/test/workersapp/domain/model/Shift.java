@@ -38,7 +38,7 @@ public class Shift {
 			}
 			case SIXTEEN_TO_TWENTY_FOUR -> {
 				this.start = LocalTime.of(16, 0, 0);
-				this.end = LocalTime.of(24, 0, 0);
+				this.end = LocalTime.of(0, 0, 0);
 			}
 		}
 	}
