@@ -1,0 +1,377 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Workers app",
+    "description": "App to manage shifts for workers",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "localhost:8080"
+    }
+  ],
+  "paths": {
+    "/api/v1/workers": {
+      "post": {
+        "tags": [
+          "Workers API"
+        ],
+        "summary": "Register new worker on Workers App.",
+        "operationId": "registerWorker",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/RegisterWorkerBody"
+        },
+        "responses": {
+          "201": {
+            "description": "Created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkerView"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/api/v1/workers/{workerId}": {
+      "delete": {
+        "tags": [
+          "Workers API"
+        ],
+        "summary": "Remove worker.",
+        "operationId": "removeWorker",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/WorkerId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content."
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Workers API"
+        ],
+        "summary": "Get worker.",
+        "operationId": "getWorker",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/WorkerId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkerView"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v1/workers/{workerId}/shifts": {
+      "get": {
+        "tags": [
+          "Shifts API"
+        ],
+        "summary": "Get shifts.",
+        "operationId": "getShifts",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/WorkerId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DateShiftViewPair"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Shifts API"
+        ],
+        "summary": "Assign shift.",
+        "operationId": "assignShift",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/WorkerId"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/AssignShiftBody"
+        },
+        "responses": {
+          "200": {
+            "description": "Ok.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ShiftView"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v1/workers/{workerId}/shifts/{date}": {
+      "get": {
+        "tags": [
+          "Shifts API"
+        ],
+        "summary": "Get shift.",
+        "operationId": "getShift",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/WorkerId"
+          },
+          {
+            "$ref": "#/components/parameters/Date"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShiftView"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Shifts API"
+        ],
+        "summary": "Remove shift.",
+        "operationId": "removeShift",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/WorkerId"
+          },
+          {
+            "$ref": "#/components/parameters/Date"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content."
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "WorkerId": {
+        "in": "path",
+        "name": "workerId",
+        "schema": {
+          "type": "integer"
+        },
+        "required": true,
+        "description": "ID of worker"
+      },
+      "Date": {
+        "in": "path",
+        "name": "date",
+        "schema": {
+          "type": "string",
+          "format": "date"
+        },
+        "required": true,
+        "description": "Date of shift assignment"
+      }
+    },
+    "requestBodies": {
+      "RegisterWorkerBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RegisterWorker"
+            }
+          }
+        }
+      },
+      "AssignShiftBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/AssignShift"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "RegisterWorker": {
+        "type": "object",
+        "description": "Worker registration payload.",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "AssignShift": {
+        "type": "object",
+        "description": "Shift assign payload.",
+        "required": [
+          "date"
+        ],
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "ZERO_TO_EIGHT",
+              "EIGHT_TO_SIXTEEN",
+              "SIXTEEN_TO_TWENTY_FOUR"
+            ]
+          }
+        }
+      },
+      "WorkerView": {
+        "type": "object",
+        "description": "Worker on which shifts are managed on.",
+        "required": [
+          "id",
+          "name",
+          "shifts"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "shifts": {
+            "type": "array",
+            "description": "Collection of Worker's shifts assigned per day",
+            "items": {
+              "$ref": "#/components/schemas/DateShiftViewPair"
+            }
+          }
+        }
+      },
+      "DateShiftViewPair": {
+        "type": "object",
+        "description": "Shift view mapped by date.",
+        "required": [
+          "date",
+          "shift"
+        ],
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "shift": {
+            "$ref": "#/components/schemas/ShiftView"
+          }
+        }
+      },
+      "ShiftView": {
+        "type": "object",
+        "description": "Shift assigned to worker.",
+        "required": [
+          "start",
+          "end",
+          "type"
+        ],
+        "properties": {
+          "start": {
+            "type": "string",
+            "format": "time"
+          },
+          "end": {
+            "type": "string",
+            "format": "time"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "ZERO_TO_EIGHT",
+              "EIGHT_TO_SIXTEEN",
+              "SIXTEEN_TO_TWENTY_FOUR"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
