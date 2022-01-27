@@ -4,7 +4,6 @@ import com.teamway.test.workersapp.domain.exception.ShiftAlreadyAssignedExceptio
 import com.teamway.test.workersapp.domain.exception.ShiftNotFoundException;
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -17,7 +16,6 @@ import java.util.Map;
 
 @Entity
 @Table(name = "worker")
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @TypeDefs(value = {@TypeDef(name = "json", typeClass = JsonStringType.class)})
 public class Worker {
@@ -36,6 +34,18 @@ public class Worker {
 	public Worker(String name) {
 		this.name = name;
 		this.shifts = new HashMap<>();
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public Map<LocalDate, Shift> getShifts() {
+		return shifts;
 	}
 
 	public Worker assignShift(LocalDate date, Shift shift) {

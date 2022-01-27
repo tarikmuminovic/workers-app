@@ -1,11 +1,9 @@
 package com.teamway.test.workersapp.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import lombok.Getter;
 
 import java.time.LocalTime;
 
-@Getter
 public class Shift {
 
 	private LocalTime start;
@@ -13,6 +11,18 @@ public class Shift {
 	private LocalTime end;
 
 	private ShiftType type;
+
+	public LocalTime getStart() {
+		return start;
+	}
+
+	public LocalTime getEnd() {
+		return end;
+	}
+
+	public ShiftType getType() {
+		return type;
+	}
 
 	@JsonCreator
 	public Shift(ShiftType type) {
